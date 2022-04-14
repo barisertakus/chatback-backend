@@ -47,6 +47,21 @@ const sortRoomMessagesByDate = (messages) => {
   });
 };
 
+io.on("connection", (socket) => {
+
+  socket.on("new-user", async () => {
+    const members = await User.find();
+    io.emit("new-user", members);
+  })
+
+  socket.on("join-room", async (room) => {
+    socket.join(room);
+    let roomMessages = await getLastMessagesFromRoom(room);
+    roomMessages = sortRoomMessagesByDate(roomMessages);
+    socket.emit("room-messages", roomMessages);
+  });
+});
+
 server.listen(PORT, () => {
-  console.log("Server is working. Port:", PORT)
-})
+  console.log("Server is working. Port:", PORT);
+});
