@@ -13,7 +13,6 @@ app.use(cors());
 app.use("/users", userRoutes);
 require("./connection");
 
-
 const server = require("http").createServer(app);
 const PORT = 4000;
 const io = require("socket.io")(server, {
@@ -48,14 +47,14 @@ const sortRoomMessagesByDate = (messages) => {
 };
 
 io.on("connection", (socket) => {
-
   socket.on("new-user", async () => {
     const members = await User.find();
     io.emit("new-user", members);
-  })
+  });
 
-  socket.on("join-room", async (room) => {
+  socket.on("join-room", async (room, previousRoom) => {
     socket.join(room);
+    socket.leave(previousRoom);
     let roomMessages = await getLastMessagesFromRoom(room);
     roomMessages = sortRoomMessagesByDate(roomMessages);
     socket.emit("room-messages", roomMessages);
