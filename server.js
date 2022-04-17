@@ -74,7 +74,12 @@ io.on("connection", (socket) => {
 
     io.to(room).emit("room-messages", roomMessages);
 
-    socket.broadcast.emit("notifications", room);
+    const notificationMessage = {
+      room,
+      content,
+      from : sender.name,
+    }
+    socket.broadcast.emit("notifications", notificationMessage);
   });
 
   app.delete("/logout", async (req, res) => {
