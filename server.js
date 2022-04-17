@@ -17,7 +17,7 @@ const server = require("http").createServer(app);
 const PORT = process.env.PORT || 4000;
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://chatback-neon.vercel.app"],
     methods: ["GET", "POST"],
   },
 });
