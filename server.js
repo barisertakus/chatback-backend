@@ -3,7 +3,6 @@ const app = express();
 const userRoutes = require("./routes/userRoutes");
 const User = require("./models/User");
 const Message = require("./models/Message");
-const rooms = ["general", "technology", "business"];
 const cors = require("cors");
 
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +14,25 @@ require("./connection");
 
 const server = require("http").createServer(app);
 const PORT = process.env.PORT || 4000;
+
+const rooms = [
+  {
+    name: "general",
+    imageUrl:
+      "https://res.cloudinary.com/barisertakus/image/upload/v1649638642/cld-sample.jpg",
+  },
+  {
+    name: "technology",
+    imageUrl:
+      "https://res.cloudinary.com/barisertakus/image/upload/v1650204592/tech-info_bs4wxq.jpg",
+  },
+  {
+    name: "business",
+    imageUrl:
+      "https://res.cloudinary.com/barisertakus/image/upload/v1650204799/business-2_11zon-min_lqmlr9.png",
+  },
+];
+
 const io = require("socket.io")(server, {
   cors: {
     origin: ["http://localhost:3000", "https://chatback-neon.vercel.app"],
